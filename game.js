@@ -7,6 +7,7 @@ let inGame = false;
 /* ====================== User click buttons ==================== */
 
 $("div[type=button]").on("click", function () {
+  if (!inGame) return;
   const userChosenColor = this.id;
   userClickedPattern.push(userChosenColor);
   playSound(userChosenColor);

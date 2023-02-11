@@ -4,6 +4,10 @@ let userClickedPattern = [];
 let level = 0;
 let inGame = false;
 
+let highscoreDiv = document.getElementById("highscore");
+
+highscoreDiv.innerHTML = "Highscore: " + localStorage.getItem("highScore") || 0;
+
 /* ====================== User click buttons ==================== */
 
 $("div[type=button]").on("click", function () {
@@ -55,10 +59,19 @@ async function nextLevel() {
   changeTitle(`Level ${level}`);
   await sleep(1000);
   userClickedPattern = [];
-  nextSequence();
+  gamePattern = [];
+  for (let i = 0; i < level + 1; i++) {
+    nextSequence();
+    await sleep(300);
+  }
 }
 
 async function gameOver() {
+  const highScore = localStorage.getItem("highScore");
+  if (highScore < level) {
+    localStorage.setItem("highScore", level);
+    highscoreDiv.innerHTML = "Highscore: " + level;
+  }
   changeTitle("Game Over, Press Any Key to Restart!");
   playSound("wrong");
   $("body").addClass("game-over");
@@ -68,6 +81,7 @@ async function gameOver() {
 }
 
 function startGame() {
+  startOver();
   changeTitle("Level 0");
   nextSequence();
   inGame = true;

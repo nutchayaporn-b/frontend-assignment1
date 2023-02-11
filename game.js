@@ -22,9 +22,7 @@ $("div[type=button]").on("click", function () {
 $("body").on("keyup", function (e) {
   e.preventDefault();
   if (level == 0 && !inGame) {
-    changeTitle("Level " + level);
-    nextSequence();
-    inGame = true;
+    startGame();
   }
 });
 
@@ -67,6 +65,12 @@ async function gameOver() {
   await sleep(200);
   $("body").removeClass("game-over");
   startOver();
+}
+
+function startGame() {
+  changeTitle("Level 0");
+  nextSequence();
+  inGame = true;
 }
 
 function changeTitle(text) {
